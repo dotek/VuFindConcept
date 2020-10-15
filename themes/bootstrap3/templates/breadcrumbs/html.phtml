@@ -1,0 +1,22 @@
+<nav aria-label="<?=$this->transEsc('Breadcrumbs') ?>">
+<ol class="breadcrumb hidden-print" id="breadcrumb">
+<li class="breadcrumb-item"><a href="<?=$this->url('home')?>">
+<?=$this->transEsc('Home')?></a>
+</li>
+<?php if(is_array($this->layout()->breadcrumbs)): ?>
+  <?php $i=2; foreach($this->layout()->breadcrumbs as $key => $val):?>
+    <?php if (!empty($val["href"])):?>
+      <li class="breadcrumb-item" <?php if (!empty($val["title"])):?> title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
+      <a href="<?=$val["href"]?>">
+      <?=$this->truncate($this->transEsc($val["text"]), 100) ?></a>
+      </li>
+    <?php else:?>
+      <li class="breadcrumb-item active" aria-current="page" title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
+       <?=$this->truncate($this->transEsc($val["text"]), 100)?>
+      </li>
+    <?php endif;?>
+    <?php $i++;?>
+  <?php endforeach; ?>
+<?php endif; ?>
+</ol>
+</nav>
