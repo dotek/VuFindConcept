@@ -78,6 +78,25 @@ class SearchMemory extends AbstractHelper
         }
         return '';
     }
+    
+    /**
+     * If a previous search is recorded in the session, return a URL to it;
+     * otherwise, return a blank string.
+     *
+     * @param string $prefix Text to place in front of link
+     * @param string $suffix Text to place after link
+     *
+     * @return string
+     */
+    public function getLastSearchURL($prefix = '', $suffix = '')
+    {
+        $last = $this->memory->retrieveSearch();
+        if (!empty($last)) {
+            $escaper = $this->getView()->plugin('escapeHtml');
+            return $prefix . $escaper($last) . $suffix;
+        }
+        return '';
+    }
 
     /**
      * Retrieve the last hidden filters used.
