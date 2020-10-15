@@ -1,0 +1,32 @@
+<?php
+$i = 0;
+$items = array();
+
+$i = 1 + $i;
+$items[$i]["text"] = $this->transEsc("Home");
+$items[$i]["url"] = $this->url("admin");
+$items[$i]["active"] = strtolower($this->layout()->templateName) == "home" ? "active" : "";
+
+$i = 1 + $i;
+$items[$i]["text"] = $this->transEsc("Social Statistics");
+$items[$i]["url"] = $this->url("admin/social");
+$items[$i]["active"] = strtolower($this->layout()->templateName) == "socialstats" ? "active" : "";
+
+$i = 1 + $i;
+$items[$i]["text"] = $this->transEsc("Configuration");
+$items[$i]["url"] = $this->url("admin/config");
+$items[$i]["active"] = strtolower($this->layout()->templateName) == "config" ? "active" : "";
+
+$i = 1 + $i;
+$items[$i]["text"] = $this->transEsc("Tag Maintenance");
+$items[$i]["url"] = $this->url("admin/tags");
+$items[$i]["active"] = strtolower($this->layout()->templateName) == "tags" ? "active" : "";
+
+if ($this->overdrive()->showOverdriveAdminLink()) {
+    $i = 1 + $i;
+    $items[$i]["text"] = $this->transEsc("Overdrive API");
+    $items[$i]["url"] = $this->url("admin/overdrive");
+    $items[$i]["active"] = strtolower($this->layout()->templateName) == "overdrive" ? "active" : "";
+}
+?>
+<?=$this->render("layout/aside-items.phtml", ["items" => $items])?>
