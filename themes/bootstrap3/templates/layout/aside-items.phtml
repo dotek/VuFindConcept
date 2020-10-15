@@ -1,0 +1,15 @@
+<?php
+if (empty($items)) {
+   $items = array();
+}
+?>
+<?php foreach ($items as $key => $val): ?>
+  <li class="nav-item <?=$val["active"]?>">
+  <a href="<?=$val["url"]?>"<?php if (!empty($val["title"])): ?> title="<?=$val["title"]?>"<?php endif; ?> class="nav-link <?=$val["active"]?>">
+  <?php if (!empty($val["icons"])): ?><span class="flex-col"><i class="<?=$val["icons"]?>" aria-hidden="true"></i><?php endif; ?>
+  <?=$val["text"]?>
+  <?php if (!empty($val["icons"])): ?></span><?php endif; ?>
+  <?php if (!empty($val["loading"])): ?><span class="<?=$val["loading"]?>"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></span><?php endif; ?>
+  <?php if (!empty($val["count"])): ?><span class="badge"><?=$val["count"]?></span><?php endif; ?>
+  </a></li>
+<?php endforeach; ?>
