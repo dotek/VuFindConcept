@@ -1,0 +1,30 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+    "@type": "ListItem",
+    "position": 1,
+    "item": {
+      "@id": "<?=$this->url('home')?>",
+      "name": "<?=$this->transEsc('Home')?>"
+    }
+  },
+<?php if(is_array($this->layout()->breadcrumbs)): ?>
+<?php $i=2; foreach($this->layout()->breadcrumbs as $key => $val):?>
+{
+  "@type": "ListItem",
+  "position": <?=$i?>,
+  "item": {
+    <?php if (!empty($val["href"])):?>
+    "@id": "<?=$val["href"]?>",
+    <?php endif; ?>
+    "name": "<?=$this->truncate($this->transEsc($val["text"]), 100)?>"
+  }
+}<?php if(count($this->layout()->breadcrumbs)>($i-1)): ?>,<?php endif; ?>
+<?php $i++;?>
+<?php endforeach; ?>
+<?php endif; ?>
+]
+}
+</script>
