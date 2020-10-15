@@ -1,0 +1,16 @@
+<?php
+$pageTitle = 'smap_text';
+$this->headTitle($this->translate($pageTitle));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["text"] = $this->transEsc($pageTitle);
+$this->layout()->breadcrumbs = $breadcrumbs;
+?>
+
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<h2><?=$this->transEsc('VuFind Administration')?></h2>
+<ul class="nav nav-pills nav-stacked flex-column">
+<?=$this->render('admin/sidebar-items.phtml')?>
+</ul>
