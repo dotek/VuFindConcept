@@ -1,0 +1,74 @@
+<?php
+// Set page title.
+$pageTitle = 'Social Statistics';
+$this->headTitle($this->translate('VuFind Administration')." - ".$this->translate($pageTitle));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["href"] = $this->url('admin');
+$breadcrumbs[0]["text"] = $this->transEsc('VuFind Administration');
+$breadcrumbs[1]["text"] = $this->transEsc($pageTitle);
+$this->layout()->breadcrumbs = $breadcrumbs;
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<h2 id="a-comments">Comments</h2>
+<table class="table table-striped" aria-describedby="a-comments">
+  <thead>
+    <tr>
+    <th scope="col">Total Users</th>
+    <th scope="col">Total Resources</th>
+    <th scope="col">Total Comments</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><?=$comments['users']?></td>
+    <td><?=$comments['resources']?></td>
+    <td><?=$comments['total']?></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="a-favorites">Favorites</h2>
+<table class="table table-striped" aria-describedby="a-favorites">
+  <thead>
+    <tr>
+    <th scope="col">Total Users</th>
+    <th scope="col">Total Resources</th>
+    <th scope="col">Total Lists</th>
+    <th scope="col">Total Saved Items</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <td><?=$favorites['users']?></td>
+    <td><?=$favorites['resources']?></td>
+    <td><?=$favorites['lists']?></td>
+    <td><?=$favorites['total']?></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="a-tags">Tags</h2>
+<table class="table table-striped" aria-describedby="a-tags">
+  <thead>
+    <tr>
+    <th scope="col">Total Users</th>
+    <th scope="col">Total Resources</th>
+    <th scope="col">Total Tags</th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+      <td><?=$tags['users']?></td>
+      <td><?=$tags['resources']?></td>
+      <td><?=$tags['total']?></td>
+      </tr>
+  </tbody>
+</table>
+
+</div>
+
+<?=$this->render("admin/sidebar.phtml")?>
