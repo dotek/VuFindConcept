@@ -1,0 +1,25 @@
+<nav aria-label="<?=$this->transEsc('Breadcrumbs') ?>">
+<ol class="breadcrumb hidden-print" id="breadcrumb" itemprop="breadcrumb" itemscope="itemscope" itemtype="http://schema.org/BreadcrumbList">
+<li class="breadcrumb-item" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"><a itemprop="item url" href="<?=$this->url('home')?>">
+<span itemprop="name"><?=$this->transEsc('Home')?></span></a>
+<meta itemprop="position" content="1"/>
+</li>
+<?php if(is_array($this->layout()->breadcrumbs)): ?>
+  <?php $i=2; foreach($this->layout()->breadcrumbs as $key => $val):?>
+    <?php if (!empty($val["href"])):?>
+      <li class="breadcrumb-item" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"<?php if (!empty($val["title"])):?> title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
+      <a itemprop="item url" href="<?=$val["href"]?>">
+      <span itemprop="name"><?=$this->truncate($this->transEsc($val["text"]), 100) ?></span></a>
+      <meta itemprop="position" content="<?=$i?>"/>
+      </li>
+    <?php else:?>
+      <li class="breadcrumb-item active" aria-current="page" itemprop="itemListElement" itemscope="itemscope" itemtype="http://schema.org/ListItem"<?php if (!empty($val["title"])):?> title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
+      <span itemprop="name"><?=$this->truncate($this->transEsc($val["text"]), 100)?></span>
+      <meta itemprop="position" content="<?=$i?>"/>
+      </li>
+    <?php endif;?>
+    <?php $i++;?>
+  <?php endforeach; ?>
+<?php endif; ?>
+</ol>
+</nav>
