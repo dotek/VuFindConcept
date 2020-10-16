@@ -12,7 +12,7 @@ In the configuration file `/config/vufind/httpd-vufind.conf` I will set up a dev
 
 SetEnv VUFIND_ENV development
 
-## I'm modifying vendor\laminas\... - > PhpRenderer.php
+## I'm modifying PhpRenderer.php
 
 In the file `\vendor\laminas\laminas-view\src\Renderer\PhpRenderer.php`
 
