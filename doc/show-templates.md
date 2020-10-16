@@ -23,14 +23,20 @@ find line:
 and I will replace it with:
 
 `$templateFileName = $this->__file;`
+
 `$tplDebug = (isset($_SERVER['VUFIND_ENV']) && $_SERVER['VUFIND_ENV']=='development');`
+
 `if ($tplDebug) { echo "\n<!-- BEGIN TEMPLATE: $templateFileName -->\n"; }`
+
 `$includeReturn = include $this->__file;`
+
 `if ($tplDebug) { echo "\n<!-- END TEMPLATE: $templateFileName -->\n"; }`
+
 
 ## Result
 
 HTML comments are then generated into the source code with the path and name of the template, indicating the beginning and end of the template.
 
 `<!-- BEGIN TEMPLATE: D:\www\vufind\themes\bootstrap3\templates\search\filters.phtml -->`
+
 `<!-- END TEMPLATE: D:\www\vufind\themes\bootstrap3\templates\search\filters.phtml -->`
