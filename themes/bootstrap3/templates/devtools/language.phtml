@@ -2,6 +2,12 @@
 $pageTitle = 'Comparing Languages Against English';
 $this->headTitle($pageTitle);
 
+$uLangs = array();
+if (isset($this->layout()->allLangs) && count($this->layout()->allLangs) > 1) {
+    foreach ($this->layout()->allLangs as $c => $n) {
+        $uLangs[] = $c;
+    }
+}
 $i = 0;
 $data = array();
 foreach ($details as $langCode => $diffs) {
@@ -50,22 +56,22 @@ $dir_lang = APPLICATION_PATH . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEP
 </thead>
 <tbody>
 <?php foreach ($data as $key => $val): ?>
-  <tr class="<?=$val['lang']?> <?=(($val['name']!=$val['lang']) ? '' : 'hide')?>">
+  <tr class="<?=$val['lang']?> <?=((in_array($val['lang'], $uLangs)) ? '' : 'hide')?>">
     <td><?=$val['langtitle']?></td>
     <td class="text-right"><?php if($val['missing'] > 0):?> <button class="btn-missing btn btn-default btn-light" title="Missing Lines: <?=$val['langtitle']?>" data-langcode="<?=$val['lang']?>" type="button"><?=$this->transEsc('show')?></button><?php endif; ?> <?=$val['missing'] ?></td>
     <td class="text-right"><?php if($val['extra'] > 0):?> <button class="btn-extra btn btn-default btn-light" title="Extra Lines: <?=$val['langtitle']?>" data-langcode="<?=$val['lang']?>" type="button"><?=$this->transEsc('show')?></button><?php endif; ?> <?=$val['extra'] ?></td>
     <td class="text-right">
       <?=$this->escapeHtml($val['percent'])?>%
       <div class="progress <?=$val['progress']?>">
-      <div class="progress-bar" role="progressbar" aria-valuenow="<?=$this->escapeHtml($val['percent'])?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$this->escapeHtml($val['percent'])?>%;">
-      <span class="sr-only"><?=$this->escapeHtml($val['percent'])?>% Complete</span>
+      <div class="progress-bar" role="progressbar" aria-valuenow="<?=$this->escapeHtml($val['percent'])?>" aria-valuemin="0" aria-valuemax="100" style="width:<?=$val['percent']?>%;">
+      <span class="sr-only"><?=$val['percent']?>% Complete</span>
       </div>
       </div>
     </td>
     <td class="text-right">
-<?php if(($val['countfiles'] > 0) && ($val['name']!=$val['lang'])):?>
+<?php if(($val['countfiles'] > 0) && (in_array($val['lang'], $uLangs))):?>
 <div class="btn-group">
-  <button type="button" class="btn btn-default btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dmb-<?=$val['lang']?>"">
+  <button type="button" class="btn btn-default btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id="dmb-<?=$val['lang']?>">
   <?=$val['countfiles']?> <span class="caret d-none"></span>
   </button>
   <ul class="dropdown-menu" aria-labelledby="dmb-<?=$val['lang']?>">
@@ -82,7 +88,8 @@ $dir_lang = APPLICATION_PATH . DIRECTORY_SEPARATOR . 'languages' . DIRECTORY_SEP
 <?php endforeach; ?>
 </tbody>
 </table>
-<p class="show-all"><button class="btn btn-default btn-light">Show all languages</button></p>
+
+<div class="show-all" data-text="Show all languages"></div>
 
 <h2>Directories</h2>
 <p>Languages in directory <i class="fa fa-folder" aria-hidden="true"></i> <em><?=$dir_lang?></em> as .ini files.</p>
@@ -134,6 +141,8 @@ $('#lang-summary .btn-extra').click(function(e) {
   var title = $(this).attr('title');
   return diffManager.showExtra(lang, title);
 });
+
+$('.show-all').html('<button class="btn btn-default btn-light" type="button">' + $('.show-all:first').data('text') + '</button>');
 $('.show-all button').click(function() {
   $("#lang-summary tr").each(function() {
     $(this).removeClass("hide");
