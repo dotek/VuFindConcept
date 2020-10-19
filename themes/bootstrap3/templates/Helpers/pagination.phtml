@@ -1,0 +1,105 @@
+<?php
+$i = 0;
+$items = array();
+if ($this->pageCount) {
+  // Previous page link
+  $i = $i + 1;
+  $items[$i]["rel"] = "prev";
+  $items[$i]["text"] = 'Prev';
+  if (isset($this->previous)) {
+    $newParams = $this->params;
+    $newParams['page'] = $this->previous;
+    $items[$i]["class"] = "active";
+    $items[$i]["href"] = $this->currentPath() . '?' . http_build_query($newParams);
+  }
+
+  // First page link
+  $i = $i + 1;
+  $items[$i]["rel"] = "first";
+  $items[$i]["text"] = 'First';
+  $items[$i]["href"] = "";
+  if (isset($this->first) && $this->first != $this->current) {
+    $newParams = $this->params;
+    $newParams['page'] = $this->first;
+    $items[$i]["class"] = "active";
+    $items[$i]["href"] = $this->currentPath() . '?' . http_build_query($newParams);
+  }
+
+  // Numbered page links
+  foreach ($this->pagesInRange as $page) {
+    $i = $i + 1;
+    $items[$i]["rel"] = "";
+    $items[$i]["text"] = $page;
+    if ($page != $this->current) {
+      $newParams = $this->params;
+      $newParams['page'] = $page;
+      $items[$i]["href"] = $this->currentPath() . '?' . http_build_query($newParams);
+    } else {
+        $items[$i]["class"] = "active";
+    }
+  }
+
+  // Last page link
+  $i = $i + 1;
+  $items[$i]["rel"] = "last";
+  $items[$i]["text"] = 'Last';
+  if (isset($this->last) && $this->last != $this->current) {
+    $newParams = $this->params;
+    $newParams['page'] = $this->last;
+    $items[$i]["class"] = "active";
+    $items[$i]["href"] = $this->currentPath() . '?' . http_build_query($newParams);
+  }
+
+  // Next page link
+  $i = $i + 1;
+  $items[$i]["rel"] = "next";
+  $items[$i]["text"] = 'Next';
+  if (isset($this->next)) {
+    $newParams = $this->params;
+    $newParams['page'] = $this->next;
+    $items[$i]["class"] = "active";
+    $items[$i]["href"] = $this->currentPath() . '?' . http_build_query($newParams);
+  }
+
+  // Alternative navigation
+  foreach ($items as $key => $val) {
+    if (!empty($val["rel"])&&!empty($val["href"])) {
+      $this->headLink(
+        [
+          'href' => $val["href"],
+          'title' => $this->escapeHtmlAttr($val["text"]),
+          'rel' => $val["rel"]
+        ]
+      );
+    }
+  }
+}
+
+?>
+<?php if ($this->pageCount): ?>
+<nav aria-label="<?=$this->translate('Page navigation')?>" class="hidden-print">
+<ul class="pagination">
+
+<?php foreach ($items as $key => $val): ?>
+<?php if (!empty($val["href"])): ?>
+<li class="page-item <?php if (!empty($val["class"])): ?><?=$val["class"]?><?php endif; ?>">
+  <a class="page-link" href="<?=$val["href"]?>">
+  <?php if (!empty($val["rel"])&&($val["rel"]=="prev")): ?><span aria-hidden="true">&laquo;</span><?php endif; ?>
+  <?=$this->transEsc($val["text"])?>
+  <?php if (!empty($val["rel"])&&($val["rel"]=="next")): ?><span aria-hidden="true">&raquo;</span><?php endif; ?>
+  </a>
+</li>
+<?php else: ?>
+<li class="page-item disabled">
+  <span class="page-link <?php if (!empty($val["class"])): ?><?=$val["class"]?><?php endif; ?>">
+  <?php if (!empty($val["rel"])&&($val["rel"]=="prev")): ?><span aria-hidden="true">&laquo;</span><?php endif; ?>
+  <?=$this->transEsc($val["text"])?>
+  <?php if (!empty($val["rel"])&&($val["rel"]=="next")): ?><span aria-hidden="true">&raquo;</span><?php endif; ?>
+  </span>
+</li>
+<?php endif; ?>
+<?php endforeach; ?>
+
+</ul>
+</nav>
+<?php endif; ?>
