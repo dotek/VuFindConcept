@@ -1,4 +1,4 @@
-<nav id="breadcrumb" class="hidden-print container" aria-label="<?=$this->transEsc('Breadcrumbs') ?>">
+<nav id="breadcrumb" class="hidden-print container" aria-label="<?=$this->transEsc('Breadcrumbs')?>">
 <ol class="breadcrumb">
 <li class="breadcrumb-item"><a href="<?=$this->url('home')?>">
 <?=$this->transEsc('Home')?></a>
@@ -6,13 +6,18 @@
 <?php if(is_array($this->layout()->breadcrumbs)): ?>
   <?php $i=2; foreach($this->layout()->breadcrumbs as $key => $val):?>
     <?php if (!empty($val["href"])):?>
-      <li class="breadcrumb-item" <?php if (!empty($val["title"])):?> title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
+      <li class="breadcrumb-item" <?php if (!empty($val["title"])):?> title="<?=$this->transEsc($val["title"])?>"<?php endif;?>>
       <a href="<?=$val["href"]?>">
-      <?=$this->truncate($this->transEsc($val["text"]), 100) ?></a>
+      <?php if (!empty($val["text"])):?><?=$this->truncate($this->transEsc($val["text"]), 100)?>
+      <?php elseif (!empty($val["name"])):?><?=$this->truncate($this->escapeHtml($val["name"]), 100)?>
+      <?php endif; ?>
+      </a>
       </li>
     <?php else:?>
-      <li class="breadcrumb-item active" aria-current="page" title="<?=$this->escapeHtmlAttr($val["title"])?>"<?php endif;?>>
-       <?=$this->truncate($this->transEsc($val["text"]), 100)?>
+      <li class="breadcrumb-item active" aria-current="page" title="<?=$this->transEsc($val["title"])?>"<?php endif;?>>
+       <?php if (!empty($val["text"])):?><?=$this->truncate($this->transEsc($val["text"]), 100)?>
+       <?php elseif (!empty($val["name"])):?><?=$this->truncate($this->escapeHtml($val["name"]), 100)?>
+       <?php endif; ?>
       </li>
     <?php endif;?>
     <?php $i++;?>

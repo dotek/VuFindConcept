@@ -1,0 +1,86 @@
+<?php
+// Set page title.
+$pageTitle = 'Manage Tags';
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["href"] = $this->url('admin');
+$breadcrumbs[0]["text"] = 'VuFind Administration';
+$breadcrumbs[1]["href"] = $this->url('admin/tags');
+$breadcrumbs[1]["text"] = 'Tag Maintenance';
+$breadcrumbs[2]["text"] = $pageTitle;
+$this->layout()->breadcrumbs = $breadcrumbs;
+
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+
+<h1><?=$this->translate($pageTitle)?></h1>
+
+<?=$this->flashmessages()?>
+
+<?=$this->render("admin/tags/tabs.phtml", ['active' => 'admin-tags-manage'])?>
+
+<div class="tab-content">
+<br/>
+  <form id="select-tags-by-user" class="form-inline" action="<?= $this->url('admin/tags', ['action' => 'Manage']);?>" method="post">
+    <div class="form-group">
+      <label for="type" class="control-label"><?=$this->translate('delete_tags_by')?>:</label>
+      <select id="type" name="type" class="form-control">
+        <option value="user" <?=("user" == $this->type) ? ' selected=selected' : ''?>><?=$this->translate('Username')?></option>
+        <option value="tag" <?=("tag" == $this->type) ? ' selected=selected' : ''?>><?=$this->translate('Tag')?></option>
+        <option value="resource" <?=("resource" == $this->type) ? ' selected=selected' : ''?>><?=$this->translate('Title')?></option>
+      </select>
+      </div>
+      <button type="submit" value="<?=$this->transEsc('Submit')?>" class="btn btn-primary"><?=$this->transEsc('Submit')?></button>
+  </form>
+
+  <?php if(false !== $this->type):?>
+    <form id="delete-tags-by-user" class="form-inline" action="<?= $this->url('admin/tags', ['action' => 'Delete'])?>" method="post">
+      <input type="hidden" name="origin" value="manage"/>
+      <input type="hidden" name="type" value="<?= $this->type; ?>"/>
+
+      <?php if("user" == $type):?>
+        <div class="form-group">
+          <label for="user_id" class="control-label"><?=$this->translate('Username')?></label>
+          <select name="user_id" id="user_id" class="form-control">
+            <?php foreach($this->uniqueUsers as $user):?>
+              <option value="<?= $user['user_id'] ?>">
+                <?= $user['username'] ?>
+              </option>
+            <?php endforeach;?>
+          </select>
+        </div>
+        <button type="submit" name="deleteFilter" value="<?=$this->transEsc('delete_tags')?>" class="btn btn-primary"><?=$this->transEsc('delete_tags')?></button>
+      <?php elseif("tag" == $type):?>
+        <div class="form-group">
+          <label for="tag_id" class="control-label"><?=$this->translate('Tag')?></label>
+          <select name="tag_id" id="tag_id" class="form-control">
+            <?php foreach($this->uniqueTags as $tag):?>
+              <option value="<?= $tag['tag_id'] ?>">
+                <?= $tag['tag'] ?>
+              </option>
+            <?php endforeach;?>
+          </select>
+        </div>
+        <button type="submit" name="deleteFilter" value="<?=$this->transEsc('delete_tags')?>" class="btn btn-primary"><?=$this->transEsc('delete_tags')?></button>
+        
+      <?php elseif("resource" == $type):?>
+        <div class="form-group">
+          <label for="resource_id" class="control-label"><?=$this->translate('Title')?></label>
+          <select name="resource_id" id="resource_id" class="form-control">
+            <?php foreach($this->uniqueResources as $resource):?>
+              <option value="<?=$resource['resource_id'] ?>" title="<?=$resource['title'] ?>">
+                <?=$this->truncate($resource['title'], 80) ?> (<?= $resource['resource_id'] ?>)
+              </option>
+            <?php endforeach;?>
+          </select>
+          </div>
+          <button type="submit" name="deleteFilter" value="<?=$this->transEsc('delete_tags')?>" class="btn btn-primary"><?=$this->transEsc('delete_tags')?></button>
+      <?php endif;?>
+    </form>
+  <?php endif;?>
+</div>
+</div>
+
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-tags-manage'])?>

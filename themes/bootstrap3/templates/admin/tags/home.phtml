@@ -1,0 +1,45 @@
+<?php
+// Set page title.
+$pageTitle = 'Tag Management';
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["href"] = $this->url('admin');
+$breadcrumbs[0]["text"] = 'VuFind Administration';
+$breadcrumbs[1]["text"] = $pageTitle;
+$this->layout()->breadcrumbs = $breadcrumbs;
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+
+<h1><?=$this->translate($pageTitle)?></h1>
+
+<?=$this->render("admin/tags/tabs.phtml", ['active' => 'admin-tags'])?>
+
+<div class="tab-content">
+<br/>
+<h2 id="a-tagsm"><?=$this->translate('Statistics')?></h2>
+<table class="table table-striped"  aria-describedby="a-tagsm">
+  <thead>
+    <tr>
+    <th scope="col" class="text-right"><?=$this->transEsc('total_users')?></th>
+    <th scope="col" class="text-right"><?=$this->transEsc('total_resources')?></th>
+    <th scope="col" class="text-right"><?=$this->transEsc('total_tags')?></th>
+    <th scope="col" class="text-right"><?=$this->transEsc('unique_tags')?></th>
+    <th scope="col" class="text-right"><?=$this->transEsc('anonymous_tags')?></th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr>
+      <td class="text-right"><?=$statistics['users']?></td>
+      <td class="text-right"><?=$statistics['resources']?></td>
+      <td class="text-right"><?=$statistics['total']?></td>
+      <td class="text-right"><?=$statistics['unique']?></td>
+      <td class="text-right"><?=$statistics['anonymous']?></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-tags'])?>

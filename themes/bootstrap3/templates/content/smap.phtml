@@ -6,11 +6,27 @@ $this->headTitle($this->translate($pageTitle));
 $breadcrumbs = array();
 $breadcrumbs[0]["text"] = $this->transEsc($pageTitle);
 $this->layout()->breadcrumbs = $breadcrumbs;
+
 ?>
 
 <h1><?=$this->transEsc($pageTitle)?></h1>
 
 <h2><?=$this->transEsc('VuFind Administration')?></h2>
-<ul class="nav nav-pills nav-stacked flex-column">
+<ul class="nav nav-pills nav-stacked">
 <?=$this->render('admin/sidebar-items.phtml')?>
+</ul>
+
+<h2>Development Tools</h2>
+<ul class="nav nav-pills nav-stacked">
+<?=$this->render('devtools/sidebar-items.phtml')?>
+</ul>
+
+<h2><?=$this->transEsc('Search')?></h2>
+<ul class="nav nav-pills nav-stacked">
+<?=$this->render('search/sidebar-items.phtml')?>
+</ul>
+
+<h2><?=$this->transEsc('Your Account')?></h2>
+<ul class="nav nav-pills nav-stacked">
+<?=$this->render('myresearch/sidebar-items.phtml')?>
 </ul>

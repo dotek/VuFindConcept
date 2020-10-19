@@ -1,15 +1,28 @@
-<?php
-if (empty($items)) {
-   $items = array();
-}
-?>
+<?php if (!empty($items) && (is_array($items))): ?>
 <?php foreach ($items as $key => $val): ?>
-  <li class="nav-item <?=$val["active"]?>">
-  <a href="<?=$val["url"]?>"<?php if (!empty($val["title"])): ?> title="<?=$val["title"]?>"<?php endif; ?> class="nav-link <?=$val["active"]?>">
+  <li class="nav-item <?=$val["active"]?> <?=(!empty($val["items"]) && (is_array($val["items"])) ? ' submenu' : '')?>">
+  <a href="<?=$val["url"]?>"<?php if (!empty($val["title"])): ?> title="<?=$this->transEsc($val["title"])?>"<?php endif; ?> class="nav-link <?=$val["active"]?>" id="nav-item<?=$key?>">
   <?php if (!empty($val["icons"])): ?><span class="flex-col"><i class="<?=$val["icons"]?>" aria-hidden="true"></i><?php endif; ?>
-  <?=$val["text"]?>
+  <?php if (!empty($val["text"])): ?><?=$this->transEsc($val["text"])?><?php endif; ?>
+  <?php if (!empty($val["name"])): ?><?=$this->escapeHtml($val["name"])?><?php endif; ?>
   <?php if (!empty($val["icons"])): ?></span><?php endif; ?>
   <?php if (!empty($val["loading"])): ?><span class="<?=$val["loading"]?>"><i class="fa fa-spin fa-spinner" aria-hidden="true"></i></span><?php endif; ?>
   <?php if (!empty($val["count"])): ?><span class="badge"><?=$val["count"]?></span><?php endif; ?>
-  </a></li>
+  </a>
+  <?php if (!empty($val["items"]) && (is_array($val["items"]))): ?>
+        <ul class="nav nav-pills nav-stacked submenu" aria-labelledby="nav-item<?=$key?>">
+        <?php foreach ($val["items"] as $k => $v): ?>
+             <li class="nav-item <?=$v["active"]?>">
+                  <a href="<?=$v["url"]?>"<?php if (!empty($v["title"])): ?> title="<?=$this->transEsc($v["title"])?>"<?php endif; ?> class="nav-link <?=$v["active"]?>">
+                  <?php if (!empty($v["icons"])): ?><span class="flex-col"><i class="<?=$v["icons"]?>" aria-hidden="true"></i><?php endif; ?>
+                  <?php if (!empty($v["text"])): ?><?=$this->transEsc($v["text"])?><?php endif; ?>
+                  <?php if (!empty($v["name"])): ?><?=$this->escapeHtml($v["name"])?><?php endif; ?>
+                  <?php if (!empty($v["icons"])): ?></span><?php endif; ?>
+                  </a>
+            </li>
+        <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+  </li>
 <?php endforeach; ?>
+<?php endif; ?>

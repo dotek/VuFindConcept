@@ -1,32 +1,48 @@
 <?php
 $i = 0;
+$j = 0;
 $items = array();
 
 $i = 1 + $i;
-$items[$i]["text"] = $this->transEsc("Home");
+$items[$i]["text"] = "Home";
 $items[$i]["url"] = $this->url("admin");
-$items[$i]["active"] = strtolower($this->layout()->templateName) == "home" ? "active" : "";
+$items[$i]["active"] = (($this->active == "admin-home") ? "active" : "");
 
 $i = 1 + $i;
-$items[$i]["text"] = $this->transEsc("Social Statistics");
+$items[$i]["text"] = "Social Statistics";
 $items[$i]["url"] = $this->url("admin/social");
-$items[$i]["active"] = strtolower($this->layout()->templateName) == "socialstats" ? "active" : "";
+$items[$i]["active"] = (($this->active == "admin-social") ? "active" : "");
 
 $i = 1 + $i;
-$items[$i]["text"] = $this->transEsc("Configuration");
+$items[$i]["text"] = "Configuration";
 $items[$i]["url"] = $this->url("admin/config");
-$items[$i]["active"] = strtolower($this->layout()->templateName) == "config" ? "active" : "";
+$items[$i]["active"] = (($this->active == "admin-config") ? "active" : "");
 
 $i = 1 + $i;
-$items[$i]["text"] = $this->transEsc("Tag Maintenance");
+$items[$i]["text"] = "Tag Maintenance";
 $items[$i]["url"] = $this->url("admin/tags");
-$items[$i]["active"] = strtolower($this->layout()->templateName) == "tags" ? "active" : "";
+$items[$i]["active"] = "";
+if(!empty($this->active)) {
+    $items[$i]["active"] = ((str_contains($this->active, 'admin-tags')) ? "active" : "");
+}
+/*
+$items[$i]["items"][$j]["text"] = "List Tags";
+$items[$i]["items"][$j]["url"] = $this->url('admin/tags', ['action' => 'List']);
+$items[$i]["items"][$j]["active"] = (($this->active == "admin-tags-list") ? "active" : "");
+$j = 1 + $j;
+$items[$i]["items"][$j]["text"] = "Manage Tags";
+$items[$i]["items"][$j]["url"] = $this->url('admin/tags', ['action' => 'Manage']);
+$items[$i]["items"][$j]["active"] = (($this->active == "admin-tags-manage") ? "active" : "");
+*/
+$i = 1 + $i;
+$items[$i]["text"] = "System Maintenance";
+$items[$i]["url"] = $this->url("admin/maintenance");
+$items[$i]["active"] = (($this->active == "admin-maintenance") ? "active" : "");
 
 if ($this->overdrive()->showOverdriveAdminLink()) {
     $i = 1 + $i;
-    $items[$i]["text"] = $this->transEsc("Overdrive API");
+    $items[$i]["text"] = "Overdrive API";
     $items[$i]["url"] = $this->url("admin/overdrive");
-    $items[$i]["active"] = strtolower($this->layout()->templateName) == "overdrive" ? "active" : "";
+    $items[$i]["active"] = (($this->active == "admin-overdrive") ? "active" : "");
 }
-?>
-<?=$this->render("layout/aside-items.phtml", ["items" => $items])?>
+echo $this->render("layout/aside-items.phtml", ["items" => $items]);

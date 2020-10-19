@@ -1,0 +1,39 @@
+<?php
+// Set page title.
+$pageTitle = "Overdrive Status";
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["href"] = $this->url('admin');
+$breadcrumbs[0]["text"] = 'VuFind Administration';
+$breadcrumbs[1]["text"] = $pageTitle;
+$this->layout()->breadcrumbs = $breadcrumbs;
+
+// echo $this->render("Helpers/debug.phtml", ['a' => $this->data]);
+
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<?=$this->flashmessages()?>
+
+<?php foreach ($this->data as $key => $val): ?>
+  <?php if (!empty($val["heading"])): ?><h2><?=$this->transEsc($val["heading"])?></h2><?php endif; ?>
+  <ul class="list-group">
+  <?php foreach ($val["items"] as $k => $v): ?>
+    <li class="list-group-item">
+    <strong><?=$this->transEsc($v["text"])?></strong>
+    <?php if ($v["value"]=="%%token%%"): ?><?=$this->token?>
+    <?php elseif (!empty($v["value"])): ?><?=$this->escapeHtml($v["value"])?>
+    <?php endif; ?>
+    <?php if (!empty($v["report"])): ?><div class="alert alert-info"><i class="fa fa-exclamation-triangle"></i> <?=$v["report"]?></div><?php endif; ?>
+    </li>
+  <?php endforeach; ?>
+  </ul>
+<?php endforeach; ?>
+
+</div>
+
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-overdrive'])?>

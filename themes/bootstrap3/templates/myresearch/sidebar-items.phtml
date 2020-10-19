@@ -1,0 +1,131 @@
+<?php
+$user = $this->auth()->isLoggedIn();
+$patron = $user ? $this->auth()->getILSPatron() : false;
+$capabilityParams = $patron ? ['patron' => $patron] : [];
+$ilsOnline = ('ils-none' !== $this->ils()->getOfflineMode());
+
+$i = 0;
+$items = array();
+
+if ($this->userlist()->getMode() !== 'disabled') {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Favorites';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-star";
+	$items[$i]["url"] = $this->url('myresearch-favorites');
+	$items[$i]["active"] = $this->active == 'favorites' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkCapability('getMyTransactions', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Checked Out Items';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-book";
+	$items[$i]["loadind"] = "checkedout-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-checkedout');
+	$items[$i]["active"] = $this->active == 'checkedout' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkFunction('getMyTransactionHistory', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Loan History';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-history";
+	$items[$i]["url"] = $this->url('myresearch-historicloans');
+	$items[$i]["active"] = $this->active == 'historicloans' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkCapability('getMyHolds', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Holds and Recalls';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-flag";
+	$items[$i]["loadind"] = "holds-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-holds');
+	$items[$i]["active"] = $this->active == 'holds' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkCapability('getMyHolds', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Holds and Recalls';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-flag";
+	$items[$i]["loadind"] = "holds-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-holds');
+	$items[$i]["active"] = $this->active == 'holds' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkFunction('StorageRetrievalRequests', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Storage Retrieval Requests';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-archive";
+	$items[$i]["loadind"] = "storageretrievalrequests-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-storageretrievalrequests');
+	$items[$i]["active"] = $this->active == 'storageRetrievalRequests' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkFunction('StorageRetrievalRequests', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Storage Retrieval Requests';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-archive";
+	$items[$i]["loadind"] = "storageretrievalrequests-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-storageretrievalrequests');
+	$items[$i]["active"] = $this->active == 'storageRetrievalRequests' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkFunction('ILLRequests', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Interlibrary Loan Requests';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-exchange";
+	$items[$i]["loadind"] = "illrequests-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-illrequests');
+	$items[$i]["active"] = $this->active == 'ILLRequests' ? ' active' : '';
+}
+if ($ilsOnline && $this->ils()->checkCapability('getMyFines', $capabilityParams)) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Fines';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-usd";
+	$items[$i]["loadind"] = "fines-status status hidden";
+	$items[$i]["url"] = $this->url('myresearch-fines');
+	$items[$i]["active"] = $this->active == 'fines' ? ' active' : '';
+}
+$i = 1 + $i;
+$items[$i]["text"] = 'Profile';
+$items[$i]["title"] = "";
+$items[$i]["icons"] = "fa fa-fw fa-user";
+$items[$i]["loadind"] = "";
+$items[$i]["url"] = $this->url('myresearch-profile');
+$items[$i]["active"] = $this->active == 'profile' ? ' active' : '';
+
+if ($ilsOnline && $user && $user->libraryCardsEnabled()) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Library Cards';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-barcode";
+	$items[$i]["loadind"] = "";
+	$items[$i]["url"] = $this->url('librarycards-home');
+	$items[$i]["active"] = $this->active == 'librarycards' ? ' active' : '';
+}
+if ($this->overdrive()->showMyContentLink()) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Overdrive Content';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-download";
+	$items[$i]["url"] = $this->url('overdrive-mycontent');
+	$items[$i]["active"] = $this->active == 'dgcontent' ? ' active' : '';
+}
+if ($this->accountCapabilities()->getSavedSearchSetting() === 'enabled') {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'history_saved_searches';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-search";
+	$items[$i]["url"] = $this->url('search-history');
+	$items[$i]["active"] = $this->active == 'history' ? ' active' : '';
+}
+if ($user) {
+	$i = 1 + $i;
+	$items[$i]["text"] = 'Log Out';
+	$items[$i]["title"] = "";
+	$items[$i]["icons"] = "fa fa-fw fa-sign-out";
+	$items[$i]["url"] = $this->url('myresearch-logout');
+	$items[$i]["active"] = $this->active == 'logout' ? ' active' : '';
+}
+?>
+<?=$this->render("layout/aside-items.phtml", ["items" => $items])?>

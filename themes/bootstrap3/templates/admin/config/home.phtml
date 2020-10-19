@@ -1,27 +1,32 @@
 <?php
 // Set page title
 $pageTitle = 'Configuration';
-$this->headTitle($this->translate('VuFind Administration')." ".$this->translate($pageTitle));
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
 
 // Set up breadcrumbs:
 $breadcrumbs = array();
 $breadcrumbs[0]["href"] = $this->url('admin');
-$breadcrumbs[0]["text"] = $this->transEsc('VuFind Administration');
-$breadcrumbs[1]["text"] = $this->transEsc($pageTitle);
+$breadcrumbs[0]["text"] = 'VuFind Administration';
+$breadcrumbs[1]["text"] = $pageTitle;
 $this->layout()->breadcrumbs = $breadcrumbs;
 ?>
 
+
 <div class="<?=$this->layoutClass('mainbody')?>">
-  <h1><?=$this->transEsc($pageTitle)?></h1>
-  <?=$this->flashmessages()?>
-  <p>Most VuFind configuration is handled by editing the configuration files in <strong><?=$this->escapeHtml($this->baseConfigPath)?></strong>.</p>
-  <p>Some basic settings can also be adjusted through the auto-configuration tool.</p>
-  <?php if (!$this->showInstallLink): ?>
-    <p><?=$this->transEsc('Auto configuration is currently disabled') ?>.</p>
-    <p><a href="<?=$this->url('admin/config', ['action' => 'EnableAutoConfig'])?>"><?=$this->transEsc('Enable Auto Config')?></a></p>
-  <?php else: ?>
-    <p><a href="<?=$this->url('install-home')?>"><?=$this->transEsc('auto_configure_title')?></a></p>
-  <?php endif; ?>
+
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<?=$this->flashmessages()?>
+
+<p>Most VuFind configuration is handled by editing the configuration files in <code><?=$this->escapeHtml($this->baseConfigPath)?></code>.</p>
+<p>Some basic settings can also be adjusted through the auto-configuration tool.</p>
+<?php if (!$this->showInstallLink): ?>
+<p><?=$this->transEsc('Auto configuration is currently disabled') ?>.</p>
+<p><a href="<?=$this->url('admin/config', ['action' => 'EnableAutoConfig'])?>"><?=$this->transEsc('Enable Auto Config')?></a></p>
+<?php else: ?>
+<p><a href="<?=$this->url('install-home')?>"><?=$this->transEsc('auto_configure_title')?></a></p>
+<?php endif; ?>
+
 </div>
 
-<?=$this->render("admin/sidebar.phtml")?>
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-config'])?>

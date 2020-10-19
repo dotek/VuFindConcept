@@ -1,0 +1,8 @@
+<nav>
+<ul class="nav nav-tabs">
+    <li class="nav-item<?=($this->active == "admin-tags" ? " active" : "")?>"><a class="nav-link<?=($this->active == "admin-tags" ? " active" : "")?>" href="<?=$this->url('admin/tags')?>"><?=$this->transEsc('Statistics')?></a></li>
+    <li class="nav-item<?=($this->active == "admin-tags-list" ? " active" : "")?>"><a class="nav-link<?=($this->active == "admin-tags-list" ? " active" : "")?>" href="<?=$this->url('admin/tags', ['action' => 'List'])?>"><?=$this->transEsc('List Tags')?></a></li>
+    <li class="nav-item<?=($this->active == "admin-tags-manage" ? " active" : "")?>"><a class="nav-link<?=($this->active == "admin-tags-manage" ? " active" : "")?>" href="<?=$this->url('admin/tags', ['action' => 'Manage'])?>"><?=$this->transEsc('Manage Tags')?></a></li>
+  </ul>
+</nav>
+

@@ -1,0 +1,60 @@
+<?php
+$i = 0;
+$items = array();
+
+$i = 1 + $i;
+$items[$i]["text"] = "Search";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("search-home");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Search History";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("search-history");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Advanced Search";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("search-advanced");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Browse the Catalog";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("browse-home");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Browse Alphabetically";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("alphabrowse-home");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "channel_explore";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("channels-home");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Course Reserves";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("search-reserves");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "New Items";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("search-newitem");
+$items[$i]["active"] = "";
+
+$i = 1 + $i;
+$items[$i]["text"] = "Collections";
+$items[$i]["title"] = "";
+$items[$i]["url"] = $this->url("collections-home");
+$items[$i]["active"] = "";
+
+?>
+<?=$this->render("layout/aside-items.phtml", ["items" => $items])?>

@@ -1,13 +1,9 @@
-<div id="aside" class="navbar-expand-lg <?=$this->layoutClass("sidebar")?>">
-<div class="collapse navbar-collapse" id="aside-collapse">
-<aside aria-label="<?=$this->transEsc("aside_label")?>">
+<aside aria-label="<?=$this->transEsc("aside_label")?>" id="aside" class="<?=$this->layoutClass("sidebar")?>">
 
 <div id="aside1" class="aside">
-<ul class="nav nav-pills nav-stacked flex-column">
+<ul class="nav nav-pills nav-stacked">
 <?=$this->render("admin/sidebar-items.phtml")?>
 </ul>
 </div>
 
 </aside>
-</div>
-</div>

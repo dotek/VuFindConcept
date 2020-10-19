@@ -19,7 +19,7 @@
     <?php if (!empty($val["href"])):?>
     "@id": "<?=$val["href"]?>",
     <?php endif; ?>
-    "name": "<?=$this->truncate($this->transEsc($val["text"]), 100)?>"
+    "name": "<?php if (!empty($val["text"])):?><?=$this->truncate($this->transEsc($val["text"]), 100)?><?php elseif (!empty($val["name"])):?><?=$this->truncate($this->escapeHtml($val["name"]), 100)?><?php endif; ?>"
   }
 }<?php if(count($this->layout()->breadcrumbs)>($i-1)): ?>,<?php endif; ?>
 <?php $i++;?>

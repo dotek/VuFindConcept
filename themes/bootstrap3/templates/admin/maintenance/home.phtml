@@ -1,0 +1,71 @@
+<?php
+// Set page title.
+$pageTitle = 'System Maintenance';
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["href"] = $this->url('admin');
+$breadcrumbs[0]["text"] = 'VuFind Administration';
+$breadcrumbs[1]["text"] = $pageTitle;
+$this->layout()->breadcrumbs = $breadcrumbs;
+
+$css = 'fieldset{float:none;width:auto;}legend{border:0;margin-bottom:0;}';
+$this->headstyle()->appendStyle($css);
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<?=$this->flashmessages()?>
+
+<h2>Utilities</h2>
+
+<form id="delete-search-history" method="get" action="<?=$this->url('admin/maintenance', ['action' => 'DeleteExpiredSearches'])?>">
+<fieldset>
+<legend>Search histories</legend>
+<div class="form-inline">
+<div class="form-group">
+<label for="del_daysOld">Delete unsaved user search histories older than</label>
+<input id="del_daysOld" type="number" name="daysOld" size="5" value="2" class="form-control"/>
+<span>days.</span>
+</div>
+<button type="submit" name="submit" value="<?=$this->escapeHtmlAttr('Submit')?>" class="btn btn-danger"><?=$this->transEsc('Submit')?></button>
+</div>
+</fieldset>
+</form>
+<br/>
+
+<form id="delete-sessions" method="get" action="<?=$this->url('admin/maintenance', ['action' => 'DeleteExpiredSessions'])?>">
+<fieldset>
+<legend>User sessions</legend>
+<div class="form-inline">
+<div class="form-group">
+<label for="delsess_daysOld">Delete user sessions older than</label>
+<input id="delsess_daysOld" type="number" name="daysOld" size="5" value="2" class="form-control"/>
+<span>days.</span>
+</div>
+<button type="submit" name="submit" value="<?=$this->escapeHtmlAttr('Submit')?>" class="btn btn-danger"><?=$this->transEsc('Submit')?></button>
+</div>
+</fieldset>
+</form>
+<br/>
+
+<form id="clear-cache" method="get" action="<?=$this->url('admin/maintenance', ['action' => 'ClearCache'])?>">
+<fieldset>
+<legend>Clear cache(s)</legend>
+<div class="form-group">
+<?php foreach ($caches as $cache): ?>
+<div class="form-check">
+<input type="checkbox" class="form-check-input" checked="checked" name="cache[]" id="cache-<?=$this->escapeHtmlAttr($cache)?>" value="<?=$this->escapeHtmlAttr($cache)?>"/>
+<label for="cache-<?=$this->escapeHtmlAttr($cache)?>" class="form-check-label"><?=$this->escapeHtml($cache)?></label>
+</div>
+<?php endforeach; ?>
+</div>
+</fieldset>
+<button type="submit" name="submit" value="<?=$this->escapeHtmlAttr('Submit')?>" class="btn btn-danger"><?=$this->transEsc('Submit')?></button>
+</form>
+
+</div>
+
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-maintenance'])?>

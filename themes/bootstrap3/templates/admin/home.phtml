@@ -1,0 +1,43 @@
+<?php
+// Set page title
+$pageTitle = 'VuFind Administration';
+$this->headTitle($this->translate($pageTitle)." - ".$this->translate('VuFind Administration'));
+
+// Set up breadcrumbs:
+$breadcrumbs = array();
+$breadcrumbs[0]["text"] = $pageTitle;
+$this->layout()->breadcrumbs = $breadcrumbs;
+
+// echo $this->render("Helpers/debug.phtml", ['a' => $this->data]);
+
+?>
+<div class="<?=$this->layoutClass('mainbody')?>">
+
+<h1><?=$this->transEsc($pageTitle)?></h1>
+
+<?php foreach ($this->data as $key => $tr): ?>
+<h2 id="a-admin-<?=$key?>"><?=$tr["heading"]?></h2>
+    <?php if ($tr["report"]): ?>
+<div class="alert alert-info" role="alert"><?=$this->transEsc($tr["report"])?></div>
+    <?php else: ?>
+<table class="table table-striped" aria-describedby="a-admin-<?=$key?>">
+    <tbody>
+        <?php foreach ($tr["items"] as $k => $v): ?>
+        <tr>
+            <th scope="row"><?=$this->transEsc($v["text"])?>:</th>
+            <td>
+                <?php if ($v["text"] == "Uptime"): ?>
+                    <?=$this->printms($v["value"])?>
+                <?php else: ?>
+                    <?=$this->escapeHtml($v["value"])?>
+                <?php endif; ?>
+            </td>
+        </tr>
+         <?php endforeach; ?>
+    </tbody>
+</table>
+    <?php endif; ?>
+<?php endforeach; ?>
+</div>
+
+<?=$this->render("admin/sidebar.phtml", ['active' => 'admin-home'])?>
